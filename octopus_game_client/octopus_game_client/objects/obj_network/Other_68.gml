@@ -8,16 +8,16 @@ if(socket == n_id)
 {
 	switch(n_type)
 	{
-		case network_type_connect:
-			show_message("1");
-		break;
-		
 		case network_type_non_blocking_connect:
-			show_message($"2  {ds_map_find_value(async_load, "succeeded")}");
-		break;
-		
-		case network_type_disconnect:
-			show_message("3");
+			var succeeded = ds_map_find_value(async_load, "succeeded");
+			if(succeeded)
+			{
+				
+			}
+			else
+			{
+				show_message($"인원이 가득 찼습니다!");
+			}
 		break;
 		
 		case network_type_data:
