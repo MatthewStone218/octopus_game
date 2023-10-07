@@ -11,37 +11,114 @@ if(server_socket_game == n_id)
 	switch(n_type)
 	{
 		case network_type_connect:
-			array_push(player_list,n_socket);
+			array_push(player_list,[n_socket]);
 			log_d("network_type_connect");
 		break;
 		
 		case network_type_non_blocking_connect:
-			array_push(player_list,n_socket);
+			array_push(player_list,[n_socket]);
 			log_d("network_type_non_blocking_connect");
 		break;
 		
 		case network_type_disconnect:
-			var _ind = array_get_index(player_list,n_socket);
+		
+			var _ind = -1;
+			for(var i = 0; i < array_length(player_list); i++)
+			{
+				if(player_list[i][0] == n_socket){_ind = i;}
+			}
+			
 			if(_ind >= 0)
 			{
 				array_delete(player_list,_ind,1);
-				log_d("network_type_disconnect");
+				log_d("network_type_disconnect: _ind");
 			}
 		break;
 	}
 
-	var t_buffer = buffer_create(1, buffer_grow, 1);
-	buffer_seek(t_buffer, buffer_seek_start, 0);
-	buffer_write(t_buffer , buffer_u16, CMD.PLAYER_LIST);
-	buffer_write(t_buffer , buffer_string, player_list);
-	network_send_packet(server_socket_admin, t_buffer, buffer_tell(t_buffer));
+	send_player_list()
 }
 else if(server_socket_admin == n_id)
 {
+	var n_socket = ds_map_find_value(async_load, "socket");
 	
+	switch(n_type)
+	{
+		case network_type_connect:
+			admin_socket = n_socket;
+			var t_buffer = buffer_create(1, buffer_grow, 1);
+			buffer_seek(t_buffer, buffer_seek_start, 0);
+			buffer_write(t_buffer , buffer_u16, CMD.PLAYER_LIST);
+			buffer_write(t_buffer , buffer_string, player_list);
+			network_send_packet(admin_socket, t_buffer, buffer_tell(t_buffer));
+			log_d("network_type_connect: admin connected");
+		break;
+		
+		case network_type_non_blocking_connect:
+			admin_socket = n_socket;
+			var t_buffer = buffer_create(1, buffer_grow, 1);
+			buffer_seek(t_buffer, buffer_seek_start, 0);
+			buffer_write(t_buffer , buffer_u16, CMD.PLAYER_LIST);
+			buffer_write(t_buffer , buffer_string, player_list);
+			network_send_packet(admin_socket, t_buffer, buffer_tell(t_buffer));
+			log_d("network_type_connect: admin connected");
+		break;
+	}
 }
 else if(n_type == network_type_data)
 {
+	var n_socket = n_id;
+	
 	var t_buffer = ds_map_find_value(async_load, "buffer"); 
-	log_d(buffer_read(t_buffer, buffer_f32 ));
+	var cmd = buffer_read(t_buffer, buffer_u16 );
+	switch(cmd)
+	{
+		case CMD.PLAYER_NAME:
+			var _ind = array_get_index(player_list,[n_socket]);
+			player_list[_ind][1] = buffer_read(t_buffer,buffer_string);
+			var t_buffer = buffer_create(1, buffer_grow, 1);
+			buffer_seek(t_buffer, buffer_seek_start, 0);
+			buffer_write(t_buffer , buffer_u16, CMD.PLAYER_LIST);
+			buffer_write(t_buffer , buffer_string, player_list);
+			network_send_packet(admin_socket, t_buffer, buffer_tell(t_buffer));
+			log_d($"player_name: {player_list[_ind][1]}");
+		break;
+		
+		case CMD.PLAYER_KICK:
+			var _sock_kick = buffer_read(t_buffer,buffer_u16);
+			var t_buffer = buffer_create(1, buffer_grow, 1);
+			buffer_seek(t_buffer, buffer_seek_start, 0);
+			buffer_write(t_buffer , buffer_u16, CMD.PLAYER_KICK);
+			network_send_packet(_sock_kick, t_buffer, buffer_tell(t_buffer));
+			network_destroy(_sock_kick);
+			
+			var _ind = -1;
+			for(var i = 0; i < array_length(player_list); i++)
+			{
+				if(player_list[i][0] == _sock_kick){_ind = i;}
+			}
+			if(_ind >= 0)
+			{
+				array_delete(player_list,_ind,1);
+			}
+			send_player_list()
+			
+			log_d($"kicked {_sock_kick}");
+		break;		
+		
+		case CMD.GAME_END:
+			for(var i = 0; i < array_length(player_list); i++)
+			{
+				var t_buffer = buffer_create(1, buffer_grow, 1);
+				buffer_seek(t_buffer, buffer_seek_start, 0);
+				buffer_write(t_buffer , buffer_u16, CMD.GAME_END);
+				network_send_packet(player_list[i][0], t_buffer, buffer_tell(t_buffer));
+				network_destroy(player_list[i][0]);
+				
+				player_list = [];
+				send_player_list();
+			}
+			log_d($"kicked all");
+		break;
+	}
 }

@@ -8,5 +8,8 @@ player_list = [];
 
 enum CMD
 {
-	PLAYER_LIST = 0
+	PLAYER_LIST = 0,
+	PLAYER_NAME = 1,
+	PLAYER_KICK = 2,
+	GAME_END = 3
 }
