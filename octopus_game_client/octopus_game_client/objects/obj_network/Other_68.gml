@@ -40,7 +40,26 @@ if(socket == n_id)
 				break;
 
 				case CMD.GAME_START:
-					room_goto(rm_game);
+					if(instance_exists(obj_fishing_rod))
+					{
+						with(obj_fishing_rod)
+						{
+							alarm[0] = random_range(60*3,60*10);
+						}
+					}
+				break;
+				
+				case CMD.TIMES_UP:
+					if(instance_exists(obj_fishing_rod))
+					{
+						with(obj_fishing_rod)
+						{
+							alarm[0] = -1;
+							alarm[1] = -1;
+							image_index = 0;
+							instance_destroy(obj_fish);
+						}
+					}
 				break;
 			}
 		break;

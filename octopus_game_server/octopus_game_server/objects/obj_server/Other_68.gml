@@ -171,6 +171,7 @@ else if(n_type == network_type_data)
 		case CMD.GAME_START:
 		
 			global.game_playing = true;
+			time_now = buffer_read(t_buffer,buffer_u16)*1000000;
 			
 			for(var i = 0; i < array_length(player_list); i++)
 			{

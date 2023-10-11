@@ -31,7 +31,7 @@ if(socket == n_id)
 				break;
 				
 				case CMD.TIME:
-					time_left = buffer_read(t_buffer,buffer_u64);
+					time_left = buffer_read(t_buffer,buffer_u16);
 				break;
 			}
 		break;

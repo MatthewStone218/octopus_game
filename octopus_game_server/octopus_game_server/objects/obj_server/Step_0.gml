@@ -10,7 +10,7 @@ if(global.game_playing)
 		var t_buffer = buffer_create(1, buffer_grow, 1);
 		buffer_seek(t_buffer, buffer_seek_start, 0);
 		buffer_write(t_buffer , buffer_u16, CMD.TIME);
-		buffer_write(t_buffer , buffer_u64, time_now);
+		buffer_write(t_buffer , buffer_u16, time_now div 1000000);
 		network_send_packet(screen_socket, t_buffer, buffer_tell(t_buffer));
 		network_send_packet(admin_socket, t_buffer, buffer_tell(t_buffer));
 		buffer_delete(t_buffer);
