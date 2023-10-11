@@ -34,11 +34,13 @@
     "IDEVersion": "2023.4.0.84",
   },
   "resources": [
+    {"id":{"name":"obj_game_start","path":"objects/obj_game_start/obj_game_start.yy",},},
     {"id":{"name":"spr_fire","path":"sprites/spr_fire/spr_fire.yy",},},
     {"id":{"name":"spr_game_end","path":"sprites/spr_game_end/spr_game_end.yy",},},
     {"id":{"name":"obj_network","path":"objects/obj_network/obj_network.yy",},},
     {"id":{"name":"obj_game_end","path":"objects/obj_game_end/obj_game_end.yy",},},
     {"id":{"name":"obj_player_list","path":"objects/obj_player_list/obj_player_list.yy",},},
+    {"id":{"name":"spr_game_start","path":"sprites/spr_game_start/spr_game_start.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
   ],
   "RoomOrderNodes": [

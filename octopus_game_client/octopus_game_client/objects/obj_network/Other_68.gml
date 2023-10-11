@@ -38,6 +38,10 @@ if(socket == n_id)
 					room_goto(rm_main);
 					show_message("게임이 종료되었습니다.");
 				break;
+
+				case CMD.GAME_START:
+					room_goto(rm_game);
+				break;
 			}
 		break;
 	}

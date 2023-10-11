@@ -19,5 +19,8 @@ enum CMD
 	PLAYER_LIST = 0,
 	PLAYER_NAME = 1,
 	PLAYER_KICK = 2,
-	GAME_END = 3
+	GAME_START = 3,
+	GAME_END = 4,
+	TIMES_UP = 5,
+	TIME = 6
 }

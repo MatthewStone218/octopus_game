@@ -11,7 +11,8 @@ if(mouse_check_button_pressed(mb_left))
 			buffer_write(t_buffer , buffer_u16, CMD.PLAYER_KICK);
 			buffer_write(t_buffer , buffer_u16, obj_network.player_list[i][0]);
 			network_send_packet(obj_network.socket, t_buffer, buffer_tell(t_buffer));
-			show_message($"kicked  {obj_network.player_list[i][0]}")
+			buffer_delete(t_buffer);
+			//show_message($"kicked  {obj_network.player_list[i][0]}")
 		}
 	}
 }

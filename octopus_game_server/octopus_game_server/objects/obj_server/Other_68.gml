@@ -51,6 +51,7 @@ else if(server_socket_admin == n_id)
 			buffer_write(t_buffer , buffer_u16, CMD.PLAYER_LIST);
 			buffer_write(t_buffer , buffer_string, player_list);
 			network_send_packet(admin_socket, t_buffer, buffer_tell(t_buffer));
+			buffer_delete(t_buffer);
 			log_d("network_type_connect: admin connected");
 		break;
 		
@@ -61,7 +62,37 @@ else if(server_socket_admin == n_id)
 			buffer_write(t_buffer , buffer_u16, CMD.PLAYER_LIST);
 			buffer_write(t_buffer , buffer_string, player_list);
 			network_send_packet(admin_socket, t_buffer, buffer_tell(t_buffer));
+			buffer_delete(t_buffer);
 			log_d("network_type_connect: admin connected");
+		break;
+	}
+}
+else if(server_socket_screen == n_id)
+{
+	var n_socket = ds_map_find_value(async_load, "socket");
+	
+	switch(n_type)
+	{
+		case network_type_connect:
+			screen_socket = n_socket;
+			var t_buffer = buffer_create(1, buffer_grow, 1);
+			buffer_seek(t_buffer, buffer_seek_start, 0);
+			buffer_write(t_buffer , buffer_u16, CMD.PLAYER_LIST);
+			buffer_write(t_buffer , buffer_string, player_list);
+			network_send_packet(admin_socket, t_buffer, buffer_tell(t_buffer));
+			buffer_delete(t_buffer);
+			log_d("network_type_connect: admin connected");
+		break;
+		
+		case network_type_non_blocking_connect:
+			screen_socket = n_socket;
+			var t_buffer = buffer_create(1, buffer_grow, 1);
+			buffer_seek(t_buffer, buffer_seek_start, 0);
+			buffer_write(t_buffer , buffer_u16, CMD.PLAYER_LIST);
+			buffer_write(t_buffer , buffer_string, player_list);
+			network_send_packet(screen_socket, t_buffer, buffer_tell(t_buffer));
+			buffer_delete(t_buffer);
+			log_d("network_type_connect: screen connected");
 		break;
 	}
 }
@@ -76,11 +107,23 @@ else if(n_type == network_type_data)
 		case CMD.PLAYER_NAME:
 			var _ind = array_get_index(player_list,[n_socket]);
 			player_list[_ind][1] = buffer_read(t_buffer,buffer_string);
+			player_list[_ind][2] = 0;
+			
+			if(global.game_playing)
+			{
+				var t_buffer = buffer_create(1, buffer_grow, 1);
+				buffer_seek(t_buffer, buffer_seek_start, 0);
+				buffer_write(t_buffer , buffer_u16, CMD.GAME_START);
+				network_send_packet(n_socket, t_buffer, buffer_tell(t_buffer));
+				buffer_delete(t_buffer);
+			}
+			
 			var t_buffer = buffer_create(1, buffer_grow, 1);
 			buffer_seek(t_buffer, buffer_seek_start, 0);
 			buffer_write(t_buffer , buffer_u16, CMD.PLAYER_LIST);
 			buffer_write(t_buffer , buffer_string, player_list);
 			network_send_packet(admin_socket, t_buffer, buffer_tell(t_buffer));
+			buffer_delete(t_buffer);
 			log_d($"player_name: {player_list[_ind][1]}");
 		break;
 		
@@ -91,6 +134,7 @@ else if(n_type == network_type_data)
 			buffer_write(t_buffer , buffer_u16, CMD.PLAYER_KICK);
 			network_send_packet(_sock_kick, t_buffer, buffer_tell(t_buffer));
 			network_destroy(_sock_kick);
+			buffer_delete(t_buffer);
 			
 			var _ind = -1;
 			for(var i = 0; i < array_length(player_list); i++)
@@ -107,6 +151,9 @@ else if(n_type == network_type_data)
 		break;		
 		
 		case CMD.GAME_END:
+		
+			global.game_playing = false;
+			
 			for(var i = 0; i < array_length(player_list); i++)
 			{
 				var t_buffer = buffer_create(1, buffer_grow, 1);
@@ -114,11 +161,26 @@ else if(n_type == network_type_data)
 				buffer_write(t_buffer , buffer_u16, CMD.GAME_END);
 				network_send_packet(player_list[i][0], t_buffer, buffer_tell(t_buffer));
 				network_destroy(player_list[i][0]);
-				
-				player_list = [];
-				send_player_list();
+				buffer_delete(t_buffer);
 			}
-			log_d($"kicked all");
+			player_list = [];
+			send_player_list();
+			log_d($"game end. kicked all");
+		break;
+		
+		case CMD.GAME_START:
+		
+			global.game_playing = true;
+			
+			for(var i = 0; i < array_length(player_list); i++)
+			{
+				var t_buffer = buffer_create(1, buffer_grow, 1);
+				buffer_seek(t_buffer, buffer_seek_start, 0);
+				buffer_write(t_buffer , buffer_u16, CMD.GAME_START);
+				network_send_packet(player_list[i][0], t_buffer, buffer_tell(t_buffer));
+				buffer_delete(t_buffer);
+			}
+			log_d($"game_started");
 		break;
 	}
 }
