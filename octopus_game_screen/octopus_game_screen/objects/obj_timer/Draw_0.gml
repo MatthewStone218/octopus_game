@@ -4,4 +4,4 @@ draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 draw_set_color(c_black);
 
-draw_text(x,y,$"{obj_network.time_left div 600000000} : {(obj_network.time_left mod 600000000) div 1000000}")
+draw_text(x,y,$"{obj_network.time_left div 60000000} : {(obj_network.time_left div 1000000) mod 60}")

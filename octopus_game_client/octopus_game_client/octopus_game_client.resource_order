@@ -18,11 +18,12 @@
     {"name":"Timelines","order":8,"path":"folders/Timelines.yy",},
   ],
   "ResourceOrderSettings": [
-    {"name":"obj_network","order":1,"path":"objects/obj_network/obj_network.yy",},
+    {"name":"obj_scaler","order":1,"path":"objects/obj_scaler/obj_scaler.yy",},
+    {"name":"obj_network","order":2,"path":"objects/obj_network/obj_network.yy",},
     {"name":"spr_start","order":1,"path":"sprites/spr_start/spr_start.yy",},
-    {"name":"obj_ui_main_start_button","order":2,"path":"objects/obj_ui_main_start_button/obj_ui_main_start_button.yy",},
+    {"name":"obj_ui_main_start_button","order":3,"path":"objects/obj_ui_main_start_button/obj_ui_main_start_button.yy",},
     {"name":"rm_main","order":1,"path":"rooms/rm_main/rm_main.yy",},
-    {"name":"obj_button","order":3,"path":"objects/obj_button/obj_button.yy",},
+    {"name":"obj_button","order":4,"path":"objects/obj_button/obj_button.yy",},
     {"name":"rm_game","order":2,"path":"rooms/rm_game/rm_game.yy",},
   ],
 }

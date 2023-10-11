@@ -81,7 +81,7 @@ else if(server_socket_screen == n_id)
 			buffer_write(t_buffer , buffer_string, player_list);
 			network_send_packet(admin_socket, t_buffer, buffer_tell(t_buffer));
 			buffer_delete(t_buffer);
-			log_d("network_type_connect: admin connected");
+			log_d("network_type_connect: screen connected");
 		break;
 		
 		case network_type_non_blocking_connect:

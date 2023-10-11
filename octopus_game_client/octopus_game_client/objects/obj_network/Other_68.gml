@@ -12,7 +12,7 @@ if(socket == n_id)
 			var succeeded = ds_map_find_value(async_load, "succeeded");
 			if(succeeded)
 			{
-				
+				room_goto(rm_game);
 			}
 			else
 			{

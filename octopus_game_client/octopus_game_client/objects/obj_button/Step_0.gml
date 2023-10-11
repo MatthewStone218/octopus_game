@@ -27,7 +27,7 @@ if(clicked and collision_point(mouse_x,mouse_y,id,0,0))
 else
 {
 	clicked = false;
-	scale = (1-scale)/4;
+	scale += (1-scale)/4;
 }
 
 image_xscale = _xscale*scale;
