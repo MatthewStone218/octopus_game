@@ -26,11 +26,11 @@ server_socket_game = network_create_server(network_socket_ws,6510,2);
 
 log_d($"game server socket : {server_socket_game}");
 
-server_socket_admin = network_create_server(network_socket_ws,6511,50);
+server_socket_admin = network_create_server(network_socket_tcp,6511,50);
 
 log_d($"admin server socket : {server_socket_admin}");
 
-server_socket_screen = network_create_server(network_socket_ws,6512,50);
+server_socket_screen = network_create_server(network_socket_tcp,6512,50);
 
 log_d($"screen server socket : {server_socket_screen}");
 

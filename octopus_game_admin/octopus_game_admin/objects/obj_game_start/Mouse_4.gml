@@ -7,3 +7,5 @@ buffer_write(t_buffer , buffer_u16, CMD.GAME_START);
 buffer_write(t_buffer , buffer_u16, global.time_max);
 network_send_packet(obj_network.socket, t_buffer, buffer_tell(t_buffer));
 buffer_delete(t_buffer);
+
+show_debug_message("________game start_______")
