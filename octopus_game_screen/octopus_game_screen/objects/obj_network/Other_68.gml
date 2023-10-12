@@ -88,7 +88,6 @@ if(socket == n_id)
 				break;
 				
 				case CMD.PULLING:
-					show_message(123)
 					var _sock = buffer_read(t_buffer, buffer_u16 );
 					with(obj_player)
 					{

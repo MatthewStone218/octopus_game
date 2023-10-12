@@ -25,7 +25,7 @@ if(image_index == 1)
 		buffer_seek(t_buffer, buffer_seek_start, 0);
 		buffer_write(t_buffer , buffer_u16, CMD.CAUGHT_FISH);
 		buffer_write(t_buffer , buffer_u16, global.fish);
-		network_send_packet(socket, t_buffer, buffer_tell(t_buffer));
+		network_send_packet(obj_network.socket, t_buffer, buffer_tell(t_buffer));
 		buffer_delete(t_buffer);
 	}
 	else if(fish_hp >= fish_hp_max)
@@ -36,7 +36,7 @@ if(image_index == 1)
 		var t_buffer = buffer_create(1, buffer_grow, 1);
 		buffer_seek(t_buffer, buffer_seek_start, 0);
 		buffer_write(t_buffer , buffer_u16, CMD.FISHING_FAILED);
-		network_send_packet(socket, t_buffer, buffer_tell(t_buffer));
+		network_send_packet(obj_network.socket, t_buffer, buffer_tell(t_buffer));
 		buffer_delete(t_buffer);
 	}
 }
