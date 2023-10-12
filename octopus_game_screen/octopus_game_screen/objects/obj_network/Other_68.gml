@@ -31,29 +31,28 @@ if(socket == n_id)
 					for(var i = 0; i < instance_number(obj_player); i++)
 					{
 						var _obj = instance_find(obj_player,i);
+						var _check = false;
+						
 						for(var i = 0; i < array_length(player_list); i++)
 						{
-							var _check = false;
 							if(player_list[i][0] == _obj.my_socket)
 							{
 								_check = true;
-							}
-							
-							if(_check == false)
-							{
-								//이미 있던 플레이어가 나간 경우
-								with(_obj)
-								{
-									var incy = instance_create_depth(x,y,depth,obj_player_chair);
-									incy.image_xscale = image_xscale;
-									instance_destroy();
-								}
-							}
-							else
-							{
 								if(array_length(player_list[i]) >= 2){_obj.name = player_list[i][1];}
 							}
 						}
+						
+						if(_check == false)
+						{
+							//이미 있던 플레이어가 나간 경우
+							with(_obj)
+							{
+								var incy = instance_create_depth(x,y,depth,obj_player_chair);
+								incy.image_xscale = image_xscale;
+								instance_destroy();
+							}
+						}
+						
 					}
 					
 					for(var i = 0; i < array_length(player_list); i++)

@@ -1,7 +1,7 @@
 /// @description 여기에 설명 삽입
 // 이 에디터에 코드를 작성할 수 있습니다
 
-image_yscale = (1-image_yscale)/8;
+image_yscale += (1-image_yscale)/8;
 if(image_index == 0)
 {
 	x = xstart;

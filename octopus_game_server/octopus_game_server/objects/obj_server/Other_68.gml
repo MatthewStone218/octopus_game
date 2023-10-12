@@ -127,8 +127,21 @@ else if(n_type == network_type_data)
 	switch(cmd)
 	{
 		case CMD.PLAYER_NAME:
-			var _ind = array_get_index(player_list,[n_socket]);
-			player_list[_ind][1] = buffer_read(t_buffer,buffer_string);
+			var _ind = -1;
+			for(var i = 0; i < array_length(player_list); i++)
+			{
+				if(player_list[i][0] == n_socket)
+				{
+					_ind = i;
+					break;
+				}
+			}
+			
+			if(_ind != -1)
+			{
+				player_list[_ind][1] = buffer_read(t_buffer,buffer_string);
+				log_d($"player_name: {player_list[_ind][1]}");
+			}
 			
 			if(global.game_playing)
 			{
@@ -139,13 +152,7 @@ else if(n_type == network_type_data)
 				buffer_delete(t_buffer);
 			}
 			
-			var t_buffer = buffer_create(1, buffer_grow, 1);
-			buffer_seek(t_buffer, buffer_seek_start, 0);
-			buffer_write(t_buffer , buffer_u16, CMD.PLAYER_LIST);
-			buffer_write(t_buffer , buffer_string, player_list);
-			network_send_packet(admin_socket, t_buffer, buffer_tell(t_buffer));
-			buffer_delete(t_buffer);
-			log_d($"player_name: {player_list[_ind][1]}");
+			send_player_list();
 		break;
 		
 		case CMD.PLAYER_KICK:
