@@ -12,11 +12,33 @@ if(server_socket_game == n_id)
 	{
 		case network_type_connect:
 			array_push(player_list,[n_socket]);
+			array_push(score_arr,[n_socket,0]);
+			
+			if(global.game_playing)
+			{
+				var t_buffer = buffer_create(1, buffer_grow, 1);
+				buffer_seek(t_buffer, buffer_seek_start, 0);
+				buffer_write(t_buffer , buffer_u16, CMD.GAME_START);
+				network_send_packet(n_socket, t_buffer, buffer_tell(t_buffer));
+				buffer_delete(t_buffer);
+			}
+			
 			log_d("network_type_connect");
 		break;
 		
 		case network_type_non_blocking_connect:
 			array_push(player_list,[n_socket]);
+			array_push(score_arr,[n_socket,0]);
+
+			if(global.game_playing)
+			{
+				var t_buffer = buffer_create(1, buffer_grow, 1);
+				buffer_seek(t_buffer, buffer_seek_start, 0);
+				buffer_write(t_buffer , buffer_u16, CMD.GAME_START);
+				network_send_packet(n_socket, t_buffer, buffer_tell(t_buffer));
+				buffer_delete(t_buffer);
+			}
+
 			log_d("network_type_non_blocking_connect");
 		break;
 		
@@ -31,7 +53,7 @@ if(server_socket_game == n_id)
 			if(_ind >= 0)
 			{
 				array_delete(player_list,_ind,1);
-				log_d("network_type_disconnect: _ind");
+				log_d("network_type_disconnect: {_ind}");
 			}
 		break;
 	}
@@ -107,7 +129,6 @@ else if(n_type == network_type_data)
 		case CMD.PLAYER_NAME:
 			var _ind = array_get_index(player_list,[n_socket]);
 			player_list[_ind][1] = buffer_read(t_buffer,buffer_string);
-			player_list[_ind][2] = 0;
 			
 			if(global.game_playing)
 			{
@@ -182,6 +203,45 @@ else if(n_type == network_type_data)
 				buffer_delete(t_buffer);
 			}
 			log_d($"game_started");
+		break;
+		
+		case CMD.PULLING:
+			var t_buffer = buffer_create(1, buffer_grow, 1);
+			buffer_seek(t_buffer, buffer_seek_start, 0);
+			buffer_write(t_buffer , buffer_u16, CMD.PULLING);
+			buffer_write(t_buffer , buffer_u16, n_socket);
+			network_send_packet(screen_socket, t_buffer, buffer_tell(t_buffer));
+			buffer_delete(t_buffer);
+		break;
+		
+		case CMD.FISHING_FAILED:
+			var t_buffer = buffer_create(1, buffer_grow, 1);
+			buffer_seek(t_buffer, buffer_seek_start, 0);
+			buffer_write(t_buffer , buffer_u16, CMD.FISHING_FAILED);
+			buffer_write(t_buffer , buffer_u16, n_socket);
+			network_send_packet(screen_socket, t_buffer, buffer_tell(t_buffer));
+			buffer_delete(t_buffer);
+		break;
+		
+		case CMD.CAUGHT_FISH:
+		
+			var _fish = buffer_read(t_buffer, buffer_u16 );
+			for(var i = 0; i < array_length(score_arr); i++)
+			{
+				if(score_arr[i][0] == n_socket)
+				{
+					score_arr[i][1] = _fish;
+					break;
+				}
+			}
+		
+			var t_buffer = buffer_create(1, buffer_grow, 1);
+			buffer_seek(t_buffer, buffer_seek_start, 0);
+			buffer_write(t_buffer , buffer_u16, CMD.CAUGHT_FISH);
+			buffer_write(t_buffer , buffer_u16, n_socket);
+			buffer_write(t_buffer , buffer_u16, _fish);
+			network_send_packet(screen_socket, t_buffer, buffer_tell(t_buffer));
+			buffer_delete(t_buffer);
 		break;
 	}
 }

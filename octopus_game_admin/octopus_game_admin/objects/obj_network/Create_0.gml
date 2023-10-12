@@ -14,5 +14,8 @@ enum CMD
 	GAME_START = 3,
 	GAME_END = 4,
 	TIMES_UP = 5,
-	TIME = 6
+	TIME = 6,
+	PULLING = 7,
+	FISHING_FAILED = 8,
+	CAUGHT_FISH = 9
 }

@@ -18,9 +18,13 @@
   ],
   "ResourceOrderSettings": [
     {"name":"spr_player_1","order":1,"path":"sprites/spr_player_1/spr_player_1.yy",},
+    {"name":"ft_name","order":1,"path":"fonts/ft_name/ft_name.yy",},
+    {"name":"obj_player","order":2,"path":"objects/obj_player/obj_player.yy",},
     {"name":"spr_timer","order":4,"path":"sprites/spr_timer/spr_timer.yy",},
+    {"name":"spr_chair","order":5,"path":"sprites/spr_chair/spr_chair.yy",},
     {"name":"obj_timer","order":1,"path":"objects/obj_timer/obj_timer.yy",},
     {"name":"spr_player_2","order":2,"path":"sprites/spr_player_2/spr_player_2.yy",},
     {"name":"spr_player_3","order":3,"path":"sprites/spr_player_3/spr_player_3.yy",},
+    {"name":"obj_player_chair","order":3,"path":"objects/obj_player_chair/obj_player_chair.yy",},
   ],
 }
