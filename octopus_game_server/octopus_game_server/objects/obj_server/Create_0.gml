@@ -22,7 +22,7 @@ score_arr = [];
 admin_socket = -1;
 screen_socket = -1;
 
-server_socket_game = network_create_server(network_socket_ws,6510,2);
+server_socket_game = network_create_server(network_socket_ws,6510,30);
 
 log_d($"game server socket : {server_socket_game}");
 
@@ -51,6 +51,16 @@ function send_player_list()
 	buffer_delete(t_buffer);
 }
 
+function send_score_arr()
+{	
+	var t_buffer = buffer_create(1, buffer_grow, 1);
+	buffer_seek(t_buffer, buffer_seek_start, 0);
+	buffer_write(t_buffer , buffer_u16, CMD.SCORE_ARR);
+	buffer_write(t_buffer , buffer_string, json_stringify(score_arr));
+	network_send_packet(screen_socket, t_buffer, buffer_tell(t_buffer));
+	buffer_delete(t_buffer);
+}
+
 enum CMD
 {
 	PLAYER_LIST = 0,
@@ -62,5 +72,7 @@ enum CMD
 	TIME = 6,
 	PULLING = 7,
 	FISHING_FAILED = 8,
-	CAUGHT_FISH = 9
+	CAUGHT_FISH = 9,
+	SCOREBOARD = 10,
+	SCORE_ARR = 11
 }

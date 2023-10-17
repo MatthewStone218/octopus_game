@@ -26,8 +26,8 @@
   "properties": [],
   "solid": false,
   "spriteId": {
-    "name": "spr_chair",
-    "path": "sprites/spr_chair/spr_chair.yy",
+    "name": "spr_player_1",
+    "path": "sprites/spr_player_1/spr_player_1.yy",
   },
   "spriteMaskId": null,
   "visible": false,

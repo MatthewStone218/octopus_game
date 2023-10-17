@@ -4,5 +4,5 @@ sprite_index = choose(spr_player_1,spr_player_2,spr_player_3);
 image_speed = 0;
 
 my_socket = -1;
-name = "default";
+name_ = "default";
 fish_score = 0;

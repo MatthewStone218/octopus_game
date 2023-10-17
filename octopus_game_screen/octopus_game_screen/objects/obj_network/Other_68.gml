@@ -33,12 +33,12 @@ if(socket == n_id)
 						var _obj = instance_find(obj_player,i);
 						var _check = false;
 						
-						for(var i = 0; i < array_length(player_list); i++)
+						for(var ii = 0; ii < array_length(player_list); ii++)
 						{
-							if(player_list[i][0] == _obj.my_socket)
+							if(player_list[ii][0] == _obj.my_socket)
 							{
 								_check = true;
-								if(array_length(player_list[i]) >= 2){_obj.name = player_list[i][1];}
+								if(array_length(player_list[ii]) >= 2){_obj.name_ = player_list[ii][1];}
 							}
 						}
 						
@@ -75,7 +75,7 @@ if(socket == n_id)
 								var incy = instance_create_depth(_chair.x,_chair.y,-_chair.y,obj_player);
 								incy.image_xscale = abs(_chair.image_xscale);
 								incy.my_socket = player_list[i][0];
-								if(array_length(player_list[i]) >= 2){_obj.name = player_list[i][1];}
+								if(array_length(player_list[i]) >= 2){incy.name_ = player_list[i][1];}
 								instance_destroy(_chair);
 							}
 						}
@@ -120,6 +120,31 @@ if(socket == n_id)
 							image_yscale = 1.2;
 							fish_score = _fish;
 							alarm[0] = 100;
+						}
+					}
+				break;
+				
+				case CMD.SCOREBOARD:
+					obj_scoreboard.image_alpha = 1-obj_scoreboard.image_alpha;
+				break;
+				
+				case CMD.TIMES_UP:
+					with(obj_player)
+					{
+						image_index = 0;
+					}
+				break;
+				
+				case CMD.SCORE_ARR:
+					var _arr = json_parse(buffer_read(t_buffer, buffer_string ));
+					for(var i = 0; i < array_length(_arr); i++)
+					{
+						with(obj_player)
+						{
+							if(my_socket == _arr[i][0])
+							{
+								fish_score = _arr[i][1];
+							}
 						}
 					}
 				break;

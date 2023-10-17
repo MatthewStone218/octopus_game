@@ -3,12 +3,13 @@
 
 draw_set_halign(fa_left);
 draw_set_valign(fa_middle);
+draw_set_font(ft_normal);
 for(var i = 0 ; i < array_length(obj_network.player_list); i++)
 {
 	draw_sprite(spr_fire,0,x,y+(i*30));
 	
 	var _str;
-	if(array_length(obj_network.player_list[i] == 2))
+	if(array_length(obj_network.player_list[i]) >= 2)
 	{
 		_str = $"{obj_network.player_list[i][0]}   {obj_network.player_list[i][1]}";
 	}

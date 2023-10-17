@@ -97,23 +97,15 @@ else if(server_socket_screen == n_id)
 	{
 		case network_type_connect:
 			screen_socket = n_socket;
-			var t_buffer = buffer_create(1, buffer_grow, 1);
-			buffer_seek(t_buffer, buffer_seek_start, 0);
-			buffer_write(t_buffer , buffer_u16, CMD.PLAYER_LIST);
-			buffer_write(t_buffer , buffer_string, player_list);
-			network_send_packet(admin_socket, t_buffer, buffer_tell(t_buffer));
-			buffer_delete(t_buffer);
+			send_player_list();
+			send_score_arr();
 			log_d("network_type_connect: screen connected");
 		break;
 		
 		case network_type_non_blocking_connect:
 			screen_socket = n_socket;
-			var t_buffer = buffer_create(1, buffer_grow, 1);
-			buffer_seek(t_buffer, buffer_seek_start, 0);
-			buffer_write(t_buffer , buffer_u16, CMD.PLAYER_LIST);
-			buffer_write(t_buffer , buffer_string, player_list);
-			network_send_packet(screen_socket, t_buffer, buffer_tell(t_buffer));
-			buffer_delete(t_buffer);
+			send_player_list();
+			send_score_arr();
 			log_d("network_type_connect: screen connected");
 		break;
 	}
@@ -232,21 +224,32 @@ else if(n_type == network_type_data)
 		
 		case CMD.CAUGHT_FISH:
 		
-			var _fish = buffer_read(t_buffer, buffer_u16 );
-			for(var i = 0; i < array_length(score_arr); i++)
+			if(global.game_playing)
 			{
-				if(score_arr[i][0] == n_socket)
+				var _fish = buffer_read(t_buffer, buffer_u16 );
+				for(var i = 0; i < array_length(score_arr); i++)
 				{
-					score_arr[i][1] = _fish;
-					break;
+					if(score_arr[i][0] == n_socket)
+					{
+						score_arr[i][1] = _fish;
+						break;
+					}
 				}
-			}
 		
+				var t_buffer = buffer_create(1, buffer_grow, 1);
+				buffer_seek(t_buffer, buffer_seek_start, 0);
+				buffer_write(t_buffer , buffer_u16, CMD.CAUGHT_FISH);
+				buffer_write(t_buffer , buffer_u16, n_socket);
+				buffer_write(t_buffer , buffer_u16, _fish);
+				network_send_packet(screen_socket, t_buffer, buffer_tell(t_buffer));
+				buffer_delete(t_buffer);
+			}
+		break;
+		
+		case CMD.SCOREBOARD:
 			var t_buffer = buffer_create(1, buffer_grow, 1);
 			buffer_seek(t_buffer, buffer_seek_start, 0);
-			buffer_write(t_buffer , buffer_u16, CMD.CAUGHT_FISH);
-			buffer_write(t_buffer , buffer_u16, n_socket);
-			buffer_write(t_buffer , buffer_u16, _fish);
+			buffer_write(t_buffer , buffer_u16, CMD.SCOREBOARD);
 			network_send_packet(screen_socket, t_buffer, buffer_tell(t_buffer));
 			buffer_delete(t_buffer);
 		break;

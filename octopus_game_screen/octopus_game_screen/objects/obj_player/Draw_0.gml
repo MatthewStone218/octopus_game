@@ -4,4 +4,4 @@ draw_self();
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 draw_set_font(ft_name);
-draw_text(x,y-40,$"{name}  {fish_score}점");
+draw_text(x,y-48,$"{name_}  {fish_score}점");
