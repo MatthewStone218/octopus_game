@@ -16,6 +16,8 @@ if(image_index == 1)
 	
 	if(fish_hp <= 0)
 	{
+		audio_stop_sound(snd_fishing);
+		audio_play_sound(snd_catch);
 		global.fish++;
 		image_index = 2;
 		image_yscale = 1.2;
@@ -30,6 +32,8 @@ if(image_index == 1)
 	}
 	else if(fish_hp >= fish_hp_max)
 	{
+		audio_stop_sound(snd_fishing);
+		audio_play_sound(snd_catch);
 		image_index = 2;
 		image_yscale = 1.2;
 		alarm[1] = 80;

@@ -79,6 +79,7 @@
     {"id":{"name":"spr_main","path":"sprites/spr_main/spr_main.yy",},},
     {"id":{"name":"GMLive_action","path":"scripts/GMLive_action/GMLive_action.yy",},},
     {"id":{"name":"obj_ui_score","path":"objects/obj_ui_score/obj_ui_score.yy",},},
+    {"id":{"name":"snd_catch","path":"sounds/snd_catch/snd_catch.yy",},},
     {"id":{"name":"GMLive_token","path":"scripts/GMLive_token/GMLive_token.yy",},},
     {"id":{"name":"GMLive_roomLoader","path":"scripts/GMLive_roomLoader/GMLive_roomLoader.yy",},},
     {"id":{"name":"spr_game_bg","path":"sprites/spr_game_bg/spr_game_bg.yy",},},
@@ -99,6 +100,7 @@
     {"id":{"name":"spr_fishing_rod","path":"sprites/spr_fishing_rod/spr_fishing_rod.yy",},},
     {"id":{"name":"obj_init","path":"objects/obj_init/obj_init.yy",},},
     {"id":{"name":"GMLive_program","path":"scripts/GMLive_program/GMLive_program.yy",},},
+    {"id":{"name":"snd_fishing","path":"sounds/snd_fishing/snd_fishing.yy",},},
     {"id":{"name":"rm_init","path":"rooms/rm_init/rm_init.yy",},},
   ],
   "RoomOrderNodes": [

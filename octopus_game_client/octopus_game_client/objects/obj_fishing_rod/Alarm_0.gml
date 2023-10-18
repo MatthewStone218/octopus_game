@@ -8,6 +8,8 @@ buffer_write(t_buffer , buffer_u16, CMD.PULLING);
 network_send_packet(obj_network.socket, t_buffer, buffer_tell(t_buffer));
 buffer_delete(t_buffer);
 
+audio_play_sound(snd_fishing,1,1);
+
 fish_strength = random_range(1,4);
 
 fish_hp_max = 300+(fish_strength*60);

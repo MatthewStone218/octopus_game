@@ -63,5 +63,6 @@
     {"name":"GMLive_compiler","order":1,"path":"scripts/GMLive_compiler/GMLive_compiler.yy",},
     {"name":"spr_fishing_rod","order":1,"path":"sprites/spr_fishing_rod/spr_fishing_rod.yy",},
     {"name":"GMLive_program","order":3,"path":"scripts/GMLive_program/GMLive_program.yy",},
+    {"name":"snd_fishing","order":1,"path":"sounds/snd_fishing/snd_fishing.yy",},
   ],
 }
