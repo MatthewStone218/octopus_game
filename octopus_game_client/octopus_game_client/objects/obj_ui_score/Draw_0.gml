@@ -6,4 +6,4 @@ draw_self();
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 draw_set_font(ft_name);
-draw_text(x,y,global.fish);
+draw_text_transformed(x,y,global.fish,2,2,0);

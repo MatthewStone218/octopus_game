@@ -9,7 +9,7 @@ function connect()
 	{
 		connecting = true;
 		socket = network_create_socket(network_socket_ws);
-		var _success = network_connect_async(socket,"192.168.0.2",6510);
+		var _success = network_connect_async(socket,"141.164.51.249",6510);
 		if(_success < 0){show_message("연결에 실패했습니다! 잠시 뒤에 다시 시도해주세요.")}
 	}
 }
