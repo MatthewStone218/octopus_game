@@ -73,7 +73,7 @@ if(socket == n_id)
 							{
 								var _chair = instance_find(obj_player_chair,irandom(instance_number(obj_player_chair)-1));
 								var incy = instance_create_depth(_chair.x,_chair.y,-_chair.y,obj_player);
-								incy.image_xscale = abs(_chair.image_xscale);
+								incy.image_xscale = sign(_chair.image_xscale);
 								incy.my_socket = player_list[i][0];
 								if(array_length(player_list[i]) >= 2){incy.name_ = player_list[i][1];}
 								instance_destroy(_chair);
